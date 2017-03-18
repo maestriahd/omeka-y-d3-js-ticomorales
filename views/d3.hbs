@@ -1,4 +1,4 @@
-<h1>D3</h1>
+<h1>Ejercicio con D3: MaGAYzines</h1>
 
 <!-- div donde se inyectará la visualizción de D3js -->
 <div id="viz"></div>
@@ -16,8 +16,9 @@ function viz(data){
   // selecciona la división donde se inyectará el SVG
   var svg = d3.select('#viz')
     .append('svg') // agrega un elemento SVG
-    .attr('width', 400) // al SVG le agrega el atributo ancho de 400px
-    .attr('height', 200) // al SVG le agrega el atributo alto de 200px
+    .attr('width', 600) // al SVG le agrega el atributo ancho de 400px
+    .attr('height', 400) // al SVG le agrega el atributo alto de 200px
+    .style("background-color", "#EEEEEE");
 
   var elem = svg.selectAll('g') // selecciona todos los elementos `g` (grupos)
     .data(data) // enlaza los datos del servidor
@@ -25,7 +26,7 @@ function viz(data){
   var elemEnter = elem.enter()
       .append('g') // agrega un grupo
       .attr('transform', function(d,i){ // aplica una transformación al elemento
-        return "translate("+(80*i+40)+", 80)" // calcula la posción relativo a
+        return "translate("+(150*i+80)+", 150)" // calcula la posción relativo a
                                               // los datos
       })
 
@@ -34,7 +35,7 @@ function viz(data){
     .attr('fill', function(d){ // el color de relleno se aplica según el
                                // resultado de esta función
       if(d.public){     // si el elemento actual es público
-        return 'green'  // el color de relleno será verde
+        return 'blue'  // el color de relleno será azul
       } else {          // de lo contrario (será público)
         return 'red'    // el color de relleno será rojo
       }
@@ -46,8 +47,8 @@ function viz(data){
 
   // crea los textos etiquetando cada uno de los círculos
   var txt = elemEnter.append('text') //agrega un elemento de tipo text
-    .attr('dy', -35) // la posición en y
-    .attr('dx', -20) // la posición en x
+    .attr('dy', -30) // la posición en y
+    .attr('dx', -30) // la posición en x
     .text(function(d){ // extrae el texto de la información del servidor
       return d.element_texts[0].text
     })
@@ -61,11 +62,11 @@ var request = new XMLHttpRequest();
 // servidor proxy para souclionar problemas de CORS (ver README)
 var CORS_PROXY = 'http://192.169.250.12:8088/';
 // usa el proxy?
-var use_cors = false;
+var use_cors = true;
 //la URL del API (http://miomeka.org/api)
-var baseUrl = ''
+var baseUrl = 'http://magayzines.omeka.net/api';
 // el key generado por omeka
-var API_KEY = ''
+var API_KEY = 'ad624b21910433a9caa2cb82877810e2af1229ad';
 
 // comstruye la URL final a partir de los datos suministrados anteriormente
 var URL = '' // variable donde se guardará la URL final
@@ -95,7 +96,7 @@ request.onload = function() {
     viz(resp)
   } else {
     // si hay un error en la conexión, escribe en la consola el error
-    console.log('ups! tenemos un error', request.status)
+    console.log('Oops! tenemos un error', request.status)
   }
 };
 
